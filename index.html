@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8" />
+	<title>JS Demo</title>
+
+	<style>
+		html {
+			font: 100%/1.4 system-ui, sans-serif;
+
+			background-size: 25px 25px;
+			background-image:
+				linear-gradient(to right, #eee 1px, transparent 1px),
+				linear-gradient(to bottom, #eee 1px, transparent 1px);
+		}
+
+		.item {
+			width: 100px;
+			height: 100px;
+			background: coral;
+			resize: both;
+			overflow: auto;
+			/* position: absolute; */
+		}
+
+		.item:focus {
+			outline: 0;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="meta">
+		<label><input type="checkbox" id="grid-snap" /> Snap to grid</label>
+	</div>
+
+	<div class="item" contenteditable>ABC</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+	<script>
+
+		var snapToGrid = false;
+		var gridSize = 25;
+
+		var ele;
+
+		document.querySelector('#grid-snap').addEventListener('change', function (event) {
+			snapToGrid = this.checked;
+
+			if (snapToGrid == true) {
+				ele.draggable({
+					'modifiers': [snap]
+				});
+			} else {
+				ele.draggable({
+					'modifiers': []
+				});
+			}
+		});
+
+		const snap = interact.modifiers.snap({
+			targets: [interact.snappers.grid({ x: gridSize, y: gridSize })],
+			relativePoints: [{ x: 0, y: 0 }],
+		});
+
+		ele = interact('.item').draggable({
+			'modifiers': [], // [snap]
+			'listeners': {
+				move (event) {
+					var target = event.target
+
+					var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+					var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+					target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+					target.setAttribute('data-x', x);
+					target.setAttribute('data-y', y);
+				}
+			}
+		});
+	</script>
+</body>
+</html>
