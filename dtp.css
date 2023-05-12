@@ -1,0 +1,151 @@
+:root {
+	--panel-border: #3a3a3a;
+	--panel-bg: #424242;
+	--panel-fg: #535353;
+	--panel-text: #fdfdfd;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font: 100%/1.4 system-ui, sans-serif;
+
+	/* background-image: radial-gradient(circle, #ff0000 1px, transparent 1px); */
+}
+
+body { margin: 0; }
+p { margin: 0; }
+
+#workspace {
+	--zoom: 0.5;
+	--grid-size: 20mm;
+	background: #222;
+	min-height: 100vh;
+
+	 padding: 2rem 0;
+}
+
+.page {
+	width: calc(210mm * var(--zoom));
+	height: calc(297mm * var(--zoom));
+	background: #fff;
+	border: 1px solid #000;
+
+	margin-inline: auto;
+
+	/* overflow: hidden; */
+
+	background-size: calc(var(--grid-size) * var(--zoom)) calc(var(--grid-size) * var(--zoom));
+	background-image:
+		linear-gradient(to right, #eee 1px, transparent 1px),
+		linear-gradient(to bottom, #eee 1px, transparent 1px);
+
+}
+
+.item {
+	--width: 40mm;
+	--height: 40mm;
+	width: calc(var(--width) * var(--zoom));
+	height: calc(var(--height) * var(--zoom));
+	background: coral;
+	resize: both;
+	overflow: auto;
+	/* position: absolute; */
+}
+
+.item:focus {
+	outline: 0;
+}
+
+.item.selected {
+	border: 1px solid #007aff;
+}
+
+#meta {
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 10000;
+}
+
+nav.panel {
+	border: 1px solid var(--panel-border);
+	padding: 2px;
+	background: var(--panel-bg);
+	width: 100%;
+	max-width: 25vw;
+	min-height: 1rem;
+
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: auto 1fr;
+
+	align-items: center;
+}
+
+nav.panel + nav.panel {
+	border-top: none;
+}
+
+details {
+	display: contents;
+}
+
+summary {
+	cursor: pointer;
+	list-style: none;
+
+	background: transparent;
+	color: #b9b9b9;
+
+	font-size: 0.75rem;
+	font-weight: 600;
+
+	padding: 0.25em 0.6rem;
+	border: 1px solid var(--panel-border);
+	border-bottom: 1px solid transparent;
+
+	position: relative;
+	bottom: -1px;
+}
+
+details:first-of-type:not(:only-child) summary {
+	border-right: none;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+details[open] summary {
+	background: var(--panel-fg);
+	color: var(--panel-text);
+	border-bottom-color: var(--panel-fg);
+}
+
+summary:is(:hover, :focus) {
+	background: #484848;
+}
+
+summary > * {
+	display: inline;
+}
+
+details > div {
+	padding: 0.8rem 0.6rem;
+
+	grid-row-start: 2;
+	grid-column-start: 1;
+	grid-column-end: 4;
+
+	/*
+	align-self: start;
+	justify-self: end;
+	*/
+
+	background: var(--panel-fg);
+	color: var(--panel-text);
+	border: 1px solid var(--panel-border);
+}
+
+
